@@ -1,0 +1,22 @@
+snippet func "function"
+${1:Name} = { arg ${2:arguments}
+	${3:body}
+};
+endsnippet
+
+snippet synthdef "synthdef"
+SynthDef.new(\\${1:Name}, { arg ${2:arguments};
+	${3:body};
+	Out.ar()
+}).add;
+endsnippet
+
+snippet synth "synth"
+Synth(\\${1:Name},[${2:arguments}]);
+endsnippet
+
+
+snippet sep "separator"
+//------------------------------------------------------------
+endsnippet
+

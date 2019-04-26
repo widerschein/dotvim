@@ -1,0 +1,53 @@
+snippet doc
+'''
+Created on Thu Jan `!v strftime("%Y-%m-%d")`
+
+@author: Markus Schubert
+
+${1:Description}
+'''
+endsnippet
+
+
+snippet dyn_print_designcontainer "Print dynardo design container"
+for design in ${1:design_container}:
+	line = ""
+	for n,v in design :
+		if v.IsScalar :
+			line += n + ": " + str(v.GetScalar().real) + " - "
+	line.rstrip("-")
+	print line
+endsnippet
+
+
+snippet dyn_print_matrix "Print dynardo matrix"
+for row in range(0,${1:my_matrix}.rows()) :
+	line = "" 
+	for col in range(0,$1.cols()) :
+		line = line + str($1(row,col)) + ";"
+	print line
+endsnippet
+
+
+snippet bunch "Nice collector class"
+class ${1:Bunch}:
+    def __init__(self, **kwds):
+        self.__dict__.update(kwds)
+endsnippet
+
+
+# print_outs
+# vector :
+#     line=""
+#     for i in range(0,values_vec.rows()) :
+#         line = line + " value : " + str(values_vec(i)) + " - "
+#     print line
+# 
+# 
+# design_point_type: 
+#     line=""
+#     for n,v in single_design :
+#         if v.IsScalar :
+#             line = line + "name : " + n + " value : " + str(v.GetScalar().real) + " - "
+#     print line
+# 
