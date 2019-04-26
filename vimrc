@@ -5,6 +5,10 @@ set nocompatible
 
 set shell=/bin/bash
 
+set termguicolors
+
+
+
 " Python3 workaround (calls :python after startup)
 "python 3
 
@@ -13,7 +17,7 @@ set shell=/bin/bash
 "endif
 
 " omni completion
-filetype plugin on
+"filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
 
@@ -29,6 +33,8 @@ set scrolloff=4
 
 set hlsearch
 set incsearch
+
+set statusline=%!MakeStatusLine()
 
 "current wd to current file
 "set autochdir
@@ -58,7 +64,7 @@ set wildmode=list:longest,full
 " apppearance
 syntax enable
 set background=dark
-color apprentice
+color base16-eighties
 
 " no mode indicator
 set noshowmode
@@ -82,7 +88,8 @@ set guioptions-=L  "remove left-hand scroll bar
 "command Check normal A ":exe "normal \<c-w>\<c-w>"
 "command! Ref UniteWithCursorWord gtags/ref
 
-command! ProtosFind Ack <cword>
+command! ProtosFind Ack <cword> $PROTOS_ROOT
+command! ProjectsFind Ack <cword> $PROJECTS_ROOT
 
 
 command! EditVimRC e ~/.vim/vimrc
@@ -90,7 +97,7 @@ command! EditVimRC e ~/.vim/vimrc
 
 " ------------ Jamfile Highlighting -----------------------
 
-autocmd BufRead Jamfile set syntax=bbv2
+autocmd BufRead Jamfile,*.jam set syntax=bbv2
 
 " ------------ Mappings -----------------------
 
@@ -141,7 +148,8 @@ nmap <leader>cd :cd %:p:h<CR>
 " quick command mode
 nnoremap ä :
 
-nnoremap <Leader>f :CtrlP ~/<CR>
+nnoremap <Leader>f :CtrlP $PROTOS_ROOT<CR>
+nnoremap <Leader>r :CtrlP $PROJECTS_ROOT<CR>
 nnoremap <Leader>o :CtrlPBufTag<CR>
 
 "nnoremap <C-q> :A<CR>
@@ -156,7 +164,7 @@ nnoremap <F3> :GitGutterToggle<CR>
 "nnoremap <Leader>m :Make!<CR>
 
 
-function MyMakeOpen()
+function! MyMakeOpen()
     Copen
     nnoremap <buffer> o <CR> 
     nnoremap <buffer> q :bd<CR> 
@@ -248,28 +256,6 @@ set updatetime=150
 
 
 "---------------------------------------------------------------------------
-" Airline stuff
-"---------------------------------------------------------------------------
-let g:airline_theme="distinguished"
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#syntastic#enabled = 0
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#branch#empty_message = ''
-
-function! AirlineInit()
-    "let g:airline_section_a = airline#section#create(['mode', ' ', 'foo'])
-    let g:airline_section_b = airline#section#create(['%3v%  ॐ  %3L%'])
-    let g:airline_section_x = airline#section#create(['branch'])
-    let g:airline_section_y = airline#section#create(['tagbar'])
-    let g:airline_section_z = airline#section#create(['filetype'])
-    let g:airline_section_warning  = airline#section#create([''])
-
-endfunction
-autocmd User AirlineAfterInit call AirlineInit()
-
-
-"---------------------------------------------------------------------------
 " Tagbar
 "---------------------------------------------------------------------------
 nmap <F8> :TagbarToggle<CR>
@@ -303,11 +289,24 @@ nnoremap <Leader>gb :Gblame<CR>
 
 if has('nvim')
     let g:deoplete#enable_at_startup=1
-    let g:deoplete#enable_smart_case = 1
     let g:deoplete#tag#cache_limit_size = 10000000
-    let g:deoplete#auto_complete_delay = 75
+
+    call deoplete#custom#option({
+    \ 'auto_complete_delay': 30,
+    \ 'max_list': 200,
+    \ 'smart_case': v:true,
+    \ })
+
+    autocmd CompleteDone * silent! pclose!
+
     "TODO
-    command! Comp let g:deoplete#sources.cpp = ['buffer']
+    "autocmd BufRead *.cpp,*.hpp let b:deoplete#sources = ['clang_complete']
+    "let g:deoplete#sources#clang#libclang_path="/usr/lib64/llvm/libclang.so"
+    "let g:deoplete#sources#clang#clang_header="/usr/lib/clang"
+    "let g:deoplete#sources#clang#sort_algo="priority"
+    "command! Comp let g:deoplete#sources.cpp = ['buffer']
+
+    call deoplete#custom#var('omni', 'input_patterns', { 'javascript': '[^. *\t]\.\w*' })
 endif
 
 " <TAB>: completion.
@@ -345,6 +344,7 @@ nnoremap ö :Unite -direction=dynamicbottom -no-resize -buffer-name=buffers buff
 "endif
 
 command! Shell Unite file file/new -buffer-name=Shellscripts -start-insert -input=~/bin/
+command! Utils Unite file file/new -buffer-name=Shellscripts -start-insert -input=~/bin_dev/
 nnoremap <leader>u :UniteResume<cr>
 
 nnoremap <leader><CR> :UniteWithCursorWord -auto-resize -auto-preview tag<cr>
@@ -369,10 +369,6 @@ let g:unite_source_grep_recursive_opt = ''
 
 let g:unite_source_tag_max_fname_length=60
 
-"Vimwiki
-map <leader>W :Unite file file/new -buffer-name=notes -start-insert -input=~/vimwiki/<CR>
-map <leader>wg :Unite grep:~/vimwiki/<CR>
-
 
 autocmd FileType unite call s:unite_keymaps()
 
@@ -387,7 +383,7 @@ endfunction``"
 "---------------------------------------------------------------------------
 
 
-"nnoremap ö :Denite -reversed -mode=normal -direction=dynamicbottom -auto-resize -buffer-name=buffers buffer<cr>
+"nnoremap ö :Denite -mode=normal -reversed -cursor-wrap -cursor-pos=0 -direction=dynamicbottom -auto-resize -buffer-name=buffers buffer<cr>
 "nnoremap <Leader>t :Denite outline<CR>
 
 "nnoremap <leader>ü :DeniteCursorWord -auto-resize -auto-preview tag<cr>
@@ -484,13 +480,73 @@ let g:dispatch_quickfix_height = 16
 " handled by vim now
 " see is.vim
 
- 
 "---------------------------------------------------------------------------
-" Own functions
+" Custom Highlight
 "---------------------------------------------------------------------------
-"function SVNRevert()
-    "echo "Reverting file..."
-    "!svn revert %
-    "edit %
-"endfunction
-"command SRevert call SVNRevert()
+
+highlight statusline    guifg=black    guibg=#b7b7b7    ctermfg=black   ctermbg=cyan
+
+highlight User1 ctermfg=007 ctermbg=239 guifg=#adadad guibg=#4e4e4e 
+highlight User2 ctermfg=007 ctermbg=236 guifg=#adadad guibg=#3a3a3a 
+highlight User3 ctermfg=010 ctermbg=236 guifg=orange guibg=#3a3a3a
+
+"---------------------------------------------------------------------------
+" Functions
+"---------------------------------------------------------------------------
+
+function! ListBuffers()
+    echo "Checking buffers for debug includes..."
+    let bufferlist = getbufinfo()
+    for buf in bufferlist
+        echo buf
+    endfor
+endfunction
+command! BLA call ListBuffers()
+
+
+function! MakeStatusLine()
+    let stl = ''
+
+    " Mode (bg color), orange if file is modified
+    if has("nvim")
+        let cur_mode = nvim_get_mode()
+        let stl .= ' '
+        let stl .= cur_mode['mode']
+        let stl .= ' '
+    else
+        let stl .= ' Mode'
+    endif
+
+    " Col
+    let stl .= '%1*%4l'
+
+    " Om
+    let stl .= ' ॐ  '
+
+    " Maxrow
+    let stl .= '%4 %L '
+
+    " Path to current file (same color as mode)
+    let stl .= &modified ? '%3*' : '%2*'
+    let stl .= ' %-F'
+    " [+] if modified
+    let stl .= '%m'
+
+    " float right:
+    let stl .= '%='
+    let stl .= '%('
+    let stl .= '%1*'
+    " current branch
+    if exists('b:git_dir')
+        let stl .= ' ' . FugitiveHead(8) . ' '
+    endif
+
+    " current function
+    " filetype (same bg color as mode)
+    let stl .= '%*'
+    let stl .= ' %y '
+
+    let stl .= '%)'
+    return stl
+endfunction
+
