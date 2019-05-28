@@ -23,7 +23,7 @@ set omnifunc=syntaxcomplete#Complete
 
 "-------------- Basics  -----------------------
 "launch osl build script
-set makeprg=~/bin/optibuild_stop.sh
+set makeprg=~/bin_dev/optibuild_stop.sh
 
 set hidden
 " Bracket pairs
@@ -67,7 +67,7 @@ set background=dark
 color base16-eighties
 
 " no mode indicator
-set noshowmode
+"set noshowmode
 
 " limit popup height
 set pumheight=15
@@ -484,7 +484,7 @@ let g:dispatch_quickfix_height = 16
 " Custom Highlight
 "---------------------------------------------------------------------------
 
-highlight statusline    guifg=black    guibg=#b7b7b7    ctermfg=black   ctermbg=cyan
+highlight statusline    guifg=black    guibg=#a7a7a7    ctermfg=black   ctermbg=cyan
 
 highlight User1 ctermfg=007 ctermbg=239 guifg=#adadad guibg=#4e4e4e 
 highlight User2 ctermfg=007 ctermbg=236 guifg=#adadad guibg=#3a3a3a 
@@ -518,7 +518,7 @@ function! MakeStatusLine()
     endif
 
     " Col
-    let stl .= '%1*%4l'
+    let stl .= '%1*%4c'
 
     " Om
     let stl .= ' ॐ  '
