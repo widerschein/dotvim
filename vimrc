@@ -337,22 +337,12 @@ let g:clang_auto_select = 0
 "let g:jedi#use_tabs_not_buffers=0
 
 "---------------------------------------------------------------------------
-" Unite / Denite
+" Unite
 "---------------------------------------------------------------------------
 
 nnoremap ö :Unite -direction=dynamicbottom -no-resize -buffer-name=buffers buffer<cr>
-"if has('nvim')
-    "nnoremap ö :Denite -winheight=12 -highlight-matched-char=underlined -cursor-wrap -mode=normal -buffer-name=buffers buffer<cr>
-"else
-    "nnoremap ö :Unite -direction=dynamicbottom -no-resize -buffer-name=buffers buffer<cr>
-"endif
 
-command! Shell Unite file file/new -buffer-name=Shellscripts -start-insert -input=~/bin/
-command! Utils Unite file file/new -buffer-name=Shellscripts -start-insert -input=~/bin_dev/
 nnoremap <leader>u :UniteResume<cr>
-
-nnoremap <leader>ag :Unite grep:%<cr>
-
 nnoremap <Leader>t :Unite outline -start-insert<CR>
 
 "
@@ -363,10 +353,6 @@ let g:unite_source_history_yank_limit=25
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
- "Use ag in unite grep source.
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '--line-numbers --nocolor --nogroup --hidden --ignore ' .  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-let g:unite_source_grep_recursive_opt = ''
 
 let g:unite_source_tag_max_fname_length=60
 
@@ -383,50 +369,25 @@ endfunction``"
 " Denite
 "---------------------------------------------------------------------------
 
-
-"nnoremap ö :Denite -mode=normal -reversed -cursor-wrap -cursor-pos=0 -direction=dynamicbottom -auto-resize -buffer-name=buffers buffer<cr>
-"nnoremap <Leader>t :Denite outline<CR>
-
-nnoremap <leader><CR> :DeniteCursorWord -auto-resize -auto-preview tag<cr>
+nnoremap <leader><CR> :DeniteCursorWord -auto-resize tag<cr>
 
 nnoremap <leader>y :Denite -cursor-pos=+3 -split=floating register<cr>
 
-"nnoremap <leader>y :Denite -mode=normal neoyank<cr>
-
-call denite#custom#source(
-            \ 'tag',
-            \ 'matchers',
-            \ ['matcher/substring']
-            \)
-
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-j>',
-      \ '<denite:move_to_next_line>',
-      \ 'noremap'
-      \)
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-k>',
-      \ '<denite:move_to_previous_line>',
-      \ 'noremap'
-      \)
-
-call denite#custom#map(
-      \ 'insert',
-      \ 'jk',
-      \ '<denite:enter_mode:normal>',
-      \ 'noremap'
-      \)
-
-"" Ag command on grep source
-"call denite#custom#var('grep', 'command', ['ag'])
-"call denite#custom#var('grep', 'default_opts',
-        "\ ['-i', '--vimgrep'])
-"call denite#custom#var('grep', 'recursive_opts', [])
-"call denite#custom#var('grep', 'pattern_opt', [])
-"call denite#custom#var('grep', 'separator', ['--'])
-"call denite#custom#var('grep', 'final_opts', [])
+autocmd FileType denite call s:denite_settings()
+function! s:denite_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
+endfunction
 
 "---------------------------------------------------------------------------
 " Sneak colors
@@ -482,6 +443,9 @@ let g:ack_use_dispatch = 1
 "---------------------------------------------------------------------------
 
 noremap - :Dirvish %<CR>
+
+command! Shell Dirvish ~/bin/
+command! Utils Dirvish ~/bin_dev/
 
 "---------------------------------------------------------------------------
 " Dispatch
