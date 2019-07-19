@@ -86,7 +86,6 @@ set guioptions-=L  "remove left-hand scroll bar
 
 " ------------ My commands -----------------------
 "command Check normal A ":exe "normal \<c-w>\<c-w>"
-"command! Ref UniteWithCursorWord gtags/ref
 
 command! ProtosFind Ack <cword> $PROTOS_ROOT
 command! ProjectsFind Ack <cword> $PROJECTS_ROOT
@@ -97,7 +96,7 @@ command! EditVimRC e ~/.vim/vimrc
 
 " ------------ Jamfile Highlighting -----------------------
 
-autocmd BufRead Jamfile,*.jam set syntax=bbv2
+autocmd BufRead Jamroot,Jamfile,*.jam set syntax=bbv2
 
 " ------------ Mappings -----------------------
 
@@ -148,11 +147,10 @@ nmap <leader>cd :cd %:p:h<CR>
 " quick command mode
 nnoremap ä :
 
-nnoremap <Leader>f :CtrlP $PROTOS_ROOT<CR>
-nnoremap <Leader>r :CtrlP $PROJECTS_ROOT<CR>
-nnoremap <Leader>o :CtrlPBufTag<CR>
+nnoremap <Leader>f :FZF $PROTOS_ROOT<CR>
+nnoremap <Leader>r :FZF $PROJECTS_ROOT<CR>
 
-"nnoremap <C-q> :A<CR>
+" Alternate source <-> header
 nnoremap <Leader>q :A<CR>
 
 " Toggle Gundo Undo Tree
@@ -168,8 +166,9 @@ function! MyMakeOpen()
     Copen
     nnoremap <buffer> o <CR> 
     nnoremap <buffer> q :bd<CR> 
-    nnoremap <buffer> n :cnext<CR> 
-    nnoremap <buffer> p :cprevious<CR> 
+    "nnoremap <buffer> n :cnext<CR> 
+    "nnoremap <buffer> p :cprevious<CR> 
+    nnoremap <buffer> n /error<CR>
     "buftype quickfix
 endfunction
 
@@ -197,8 +196,6 @@ endfunction
 autocmd BufRead *.cpp,*.hpp,*.h,*.ipp,*.py,*.sh,*.html,*.js call CKeysInit()
 
 " ------------ Temporary Mappings -----------------------
-nnoremap <F2> :!./run.sh<CR>
-
 
 " remove trailing whitespace
 nnoremap <leader>dws :%s/\s\+$<CR>
@@ -254,6 +251,11 @@ let g:bookmark_manage_per_buffer = 0
 "---------------------------------------------------------------------------
 set updatetime=150
 
+"---------------------------------------------------------------------------
+" Buffer Explorer
+"---------------------------------------------------------------------------
+"let g:bufExplorerSplitOutPathName = 0
+
 
 "---------------------------------------------------------------------------
 " Tagbar
@@ -269,6 +271,8 @@ let g:tagbar_compact = 1
 let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+let g:UltiSnipsSnippetsDir=$HOME .. "/.vim/Ultisnips"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "Ultisnips"]
 
 
 "---------------------------------------------------------------------------
@@ -347,8 +351,6 @@ command! Shell Unite file file/new -buffer-name=Shellscripts -start-insert -inpu
 command! Utils Unite file file/new -buffer-name=Shellscripts -start-insert -input=~/bin_dev/
 nnoremap <leader>u :UniteResume<cr>
 
-nnoremap <leader><CR> :UniteWithCursorWord -auto-resize -auto-preview tag<cr>
-
 nnoremap <leader>ag :Unite grep:%<cr>
 
 nnoremap <Leader>t :Unite outline -start-insert<CR>
@@ -357,7 +359,6 @@ nnoremap <Leader>t :Unite outline -start-insert<CR>
 "let g:unite_enable_start_insert = 1
 let g:unite_source_history_yank_enable = 1
 let g:unite_source_history_yank_limit=25
-nnoremap <leader>y :Denite -mode=normal -cursor-pos=+3 register<cr>
 
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -386,9 +387,17 @@ endfunction``"
 "nnoremap ö :Denite -mode=normal -reversed -cursor-wrap -cursor-pos=0 -direction=dynamicbottom -auto-resize -buffer-name=buffers buffer<cr>
 "nnoremap <Leader>t :Denite outline<CR>
 
-"nnoremap <leader>ü :DeniteCursorWord -auto-resize -auto-preview tag<cr>
+nnoremap <leader><CR> :DeniteCursorWord -auto-resize -auto-preview tag<cr>
+
+nnoremap <leader>y :Denite -cursor-pos=+3 -split=floating register<cr>
 
 "nnoremap <leader>y :Denite -mode=normal neoyank<cr>
+
+call denite#custom#source(
+            \ 'tag',
+            \ 'matchers',
+            \ ['matcher/substring']
+            \)
 
 call denite#custom#map(
       \ 'insert',
@@ -440,6 +449,14 @@ let g:sneak#s_next = 1
 "---------------------------------------------------------------------------
 map s <Plug>(easymotion-s)
 let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj'
+
+"---------------------------------------------------------------------------
+" fzf
+"---------------------------------------------------------------------------
+set runtimepath+=~/Programme/fzf
+
+autocmd FileType fzf set laststatus=0 noshowmode noruler | autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
 
 "---------------------------------------------------------------------------
 " ctrlp
