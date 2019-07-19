@@ -14,35 +14,6 @@ snippet ddebug
 endsnippet
 
 
-global !p
-
-def getArgs(group):
-    import re
-    word = re.compile('[a-zA-Z><.]+ \w+')
-	return [i.split(" ") for i in word.findall(group) ]
-
-endglobal
-
-snippet md "Method description" b
-/*
- * ${7:Short Description}`!p
-for i in getArgs(t[4]):
-    snip.rv += "\n\t * @param " + i[1] + " usage..."`
- * `!p
-if "throws" in t[5]:
-    snip.rv = "\n\t * @throws " + t[6]
-else:
-    snip.rv = ""` `!p
-if not "void" in t[2]:
-    snip.rv = "\n\t * @return object"
-else:
-    snip.rv = ""`
- */
-${1:public} ${2:void} ${3:method}($4) ${5:throws $6 }{
-    $0
-}
-endsnippet
-
 snippet docf "Function doc" b
 /// 
 /*!
