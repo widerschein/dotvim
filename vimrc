@@ -255,7 +255,7 @@ set updatetime=100
 " Buffer Explorer
 "---------------------------------------------------------------------------
 "let g:bufExplorerSplitOutPathName = 0
-
+nnoremap ö :ToggleBufExplorer<CR>
 
 "---------------------------------------------------------------------------
 " Tagbar
@@ -337,37 +337,10 @@ let g:clang_auto_select = 0
 "let g:jedi#use_tabs_not_buffers=0
 
 "---------------------------------------------------------------------------
-" Unite
-"---------------------------------------------------------------------------
-
-nnoremap ö :Unite -direction=dynamicbottom -no-resize -buffer-name=buffers buffer<cr>
-
-nnoremap <leader>u :UniteResume<cr>
-nnoremap <Leader>t :Unite outline -start-insert<CR>
-
-"
-"let g:unite_enable_start_insert = 1
-let g:unite_source_history_yank_enable = 1
-let g:unite_source_history_yank_limit=25
-
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-
-let g:unite_source_tag_max_fname_length=60
-
-
-autocmd FileType unite call s:unite_keymaps()
-
-function! s:unite_keymaps()
-    " Enable navigation with control-j and control-k in insert mode
-    imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-    imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-endfunction``"
-
-"---------------------------------------------------------------------------
 " Denite
 "---------------------------------------------------------------------------
+
+nnoremap <Leader>t :Denite outline -start-filter<CR>
 
 nnoremap <leader><CR> :DeniteCursorWord -auto-resize tag<cr>
 
