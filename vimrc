@@ -161,7 +161,6 @@ nnoremap <F3> :GitGutterToggle<CR>
 " dispatch / make / quickfix
 "nnoremap <Leader>m :Make!<CR>
 
-
 function! MyMakeOpen()
     Copen
     nnoremap <buffer> o <CR> 
@@ -181,6 +180,12 @@ nnoremap <Leader>mn :cnext<CR>
 nnoremap <Leader>mp :cprevious<CR>
 
 
+function! CppSettings()
+    setlocal cindent
+    set cinoptions=(0,w1
+endfunction
+autocmd FileType cpp call CppSettings()
+
 function! CKeysInit()
     " C++ append semicolon
     imap öö (
@@ -194,8 +199,6 @@ function! CKeysInit()
 
 endfunction
 autocmd BufRead *.cpp,*.hpp,*.h,*.ipp,*.py,*.sh,*.html,*.js call CKeysInit()
-
-" ------------ Temporary Mappings -----------------------
 
 " remove trailing whitespace
 nnoremap <leader>dws :%s/\s\+$<CR>
