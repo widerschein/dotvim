@@ -31,8 +31,6 @@ set showmatch
 set matchtime=10
 set scrolloff=4
 
-set hlsearch
-set incsearch
 
 set statusline=%!MakeStatusLine()
 
@@ -182,7 +180,7 @@ nnoremap <Leader>mp :cprevious<CR>
 
 function! CppSettings()
     setlocal cindent
-    set cinoptions=(0,w1
+    setlocal cinoptions=(0,w1
 endfunction
 autocmd FileType cpp call CppSettings()
 
@@ -325,12 +323,19 @@ let g:clang_complete_auto = 1
 let g:clang_auto_select = 0
 
 
+"---------------------------------------------------------------------------
+" a.vim (alternate)
+"---------------------------------------------------------------------------
+let g:alternateNoDefaultAlternate = 1
+" append to script default
+let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc' . 'srd:../public_include'
+
 
 "---------------------------------------------------------------------------
 " Sessions
 "---------------------------------------------------------------------------
-:let g:session_autosave = 'yes'
-:let g:session_autoload = 'yes'
+let g:session_autosave = 'yes'
+let g:session_autoload = 'yes'
 "
 "---------------------------------------------------------------------------
 " Jedi Vim
@@ -422,6 +427,11 @@ noremap - :Dirvish %<CR>
 
 command! Shell Dirvish ~/bin/
 command! Utils Dirvish ~/bin_dev/
+
+augroup dirvish_config
+    autocmd!
+    autocmd FileType dirvish map <buffer> q <Plug>(dirvish_quit)
+augroup END
 
 "---------------------------------------------------------------------------
 " Dispatch
