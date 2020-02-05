@@ -56,8 +56,8 @@ set smartcase
 set relativenumber
 set number
 
-" display results when tabbing
-set wildmode=list:longest,full
+" display pum when tabbing
+set wildmode=longest,full
 
 " apppearance
 syntax enable
