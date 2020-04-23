@@ -332,8 +332,9 @@ let g:clang_auto_select = 0
 "---------------------------------------------------------------------------
 let g:alternateNoDefaultAlternate = 1
 " append to script default
-let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc' . 'srd:../public_include'
-
+let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
+            \ . ',sfr:../src,sfr:../public_include'
+            \ . ',sfr:../../src,sfr:../../public_include'
 
 "---------------------------------------------------------------------------
 " Sessions
