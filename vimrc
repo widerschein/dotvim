@@ -301,7 +301,6 @@ if has('nvim')
     let g:deoplete#tag#cache_limit_size = 10000000
 
     call deoplete#custom#option({
-    \ 'auto_complete_delay': 30,
     \ 'max_list': 200,
     \ 'smart_case': v:true,
     \ })
