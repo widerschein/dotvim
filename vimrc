@@ -218,7 +218,11 @@ let g:syntastic_cpp_compiler_options = ' -std=c++11'
 "---------------------------------------------------------------------------
 " ALE
 "---------------------------------------------------------------------------
-"let g:ale_linters = {'cpp': ['clang', 'cppcheck', 'cpplint']}
+let g:ale_linters = {
+            \ 'cpp': [],
+            \ 'javascript': ['eslint'],
+            \ 'python': []
+            \}
 "let g:ale_linters = {'cpp': ['g++']}
 "let g:ale_cpp_gcc_options='-std=c++11 -Wall'
 
