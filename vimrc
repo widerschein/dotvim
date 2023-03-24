@@ -8,22 +8,14 @@ set shell=/bin/bash
 set termguicolors
 
 
-
-" Python3 workaround (calls :python after startup)
-"python 3
-
-"if !has('nvim')
-    "python 2
-"endif
-
 " omni completion
 "filetype plugin on
-set omnifunc=syntaxcomplete#Complete
+"set omnifunc=syntaxcomplete#Complete
 
 
 "-------------- Basics  -----------------------
 "launch osl build script
-set makeprg=~/bin_dev/optibuild_stop.sh
+set makeprg=~/bin_dev/optibuild.sh
 
 set hidden
 " Bracket pairs
@@ -41,6 +33,8 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+
+set autoindent
 
 set nostartofline
 
@@ -139,6 +133,9 @@ nmap <leader>cd :cd %:p:h<CR>
 
 "noremap <Leader>h :nohl<CR>
 
+" Leave terminal-mode with Esc
+tnoremap <Esc> <C-\><C-n>
+
 " quick g/s on buffer
 "nnoremap S :%<Space>
 
@@ -196,52 +193,31 @@ function! CKeysInit()
     vmap üü S]
 
 endfunction
-autocmd BufRead *.cpp,*.hpp,*.h,*.ipp,*.py,*.sh,*.html,*.js call CKeysInit()
+autocmd BufRead *.cpp,*.hpp,*.h,*.ipp,*.py,*.sh,*.html,*.js,*.ts,*.json,*.scss call CKeysInit()
 
 " remove trailing whitespace
 nnoremap <leader>dws :%s/\s\+$<CR>
 
 " ------- Plugins ---------------
 
-"---------------------------------------------------------------------------
-" Syntastic
-"---------------------------------------------------------------------------
-
-"let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_compiler = 'g++'
-let g:syntastic_cpp_compiler_options = ' -std=c++11'
-" Syntastic toggle
-"nnoremap <leader>sy :SyntasticToggleMode<CR>:Errors<CR>
-"let g:syntastic_error_symbol = '✗'
-"let g:syntastic_warning_symbol = '⚠'
-
-"---------------------------------------------------------------------------
 " ALE
 "---------------------------------------------------------------------------
 let g:ale_linters = {
-            \ 'cpp': [],
-            \ 'javascript': ['eslint'],
-            \ 'python': []
+            \ "cpp": [""],
+            \ "javascript": ["eslint"],
+            \ "python": ["mypy"]
             \}
-"let g:ale_linters = {'cpp': ['g++']}
-"let g:ale_cpp_gcc_options='-std=c++11 -Wall'
 
-"---------------------------------------------------------------------------
-" Clang complete
-"---------------------------------------------------------------------------
-let g:clang_library_path="/usr/lib64/llvm"
-"let g:clang_auto_select=1
-let g:clang_snippets=1
-let g:clang_snippets_engine='ultisnips'
-"let g:clang_close_preview=1
-let g:clang_user_options='-std=c++11'
-let g:clang_jumpto_declaration_key = '<C-1>'
-let g:clang_jumpto_back_key = '<C-2>'
+let g:ale_fixers = {
+            \ "python": ["black"],
+            \ "cpp": ["clang-format"]
+            \}
 
-"let g:clang_complete_auto = 0
-"let g:clang_auto_select = 0
-"let g:clang_default_keymappings = 0
+let g:ale_completion_enabled = 0
+let g:ale_hover_to_floating_preview = 1
+let g:ale_floating_preview = 1
 
+let g:ale_c_clangformat_style_options=expand($PROTOS_ROOT) .. "/_clang_format"
 
 "---------------------------------------------------------------------------
 " Simple Bookmarks
@@ -260,6 +236,7 @@ set updatetime=100
 " Buffer Explorer
 "---------------------------------------------------------------------------
 "let g:bufExplorerSplitOutPathName = 0
+let g:bufExplorerReverseSort=1
 nnoremap ö :ToggleBufExplorer<CR>
 
 "---------------------------------------------------------------------------
@@ -268,6 +245,7 @@ nnoremap ö :ToggleBufExplorer<CR>
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_sort = 0
 let g:tagbar_compact = 1
+"let g:tagbar_show_data_type = 1
 
 "---------------------------------------------------------------------------
 " Ultisnips
@@ -277,20 +255,21 @@ let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:UltiSnipsSnippetsDir=$HOME .. "/.vim/Ultisnips"
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "Ultisnips"]
+let g:UltiSnipsSnippetDirectories=["Ultisnips"]
 
 
 "---------------------------------------------------------------------------
-" Futigive mapping
+" Fugitive mapping
 "---------------------------------------------------------------------------
 
-nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gg :Git<Space>
+nnoremap <Leader>gs :Git<CR>
 nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gl :Glog<CR>
+nnoremap <Leader>gl :Git log<CR>
 nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gr :Gread<CR>
 nnoremap <Leader>gw :Gwrite<CR>
-nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gb :Git blame<CR>
 
 "---------------------------------------------------------------------------
 " Neocomplete / Deoplete
@@ -307,14 +286,7 @@ if has('nvim')
 
     autocmd CompleteDone * silent! pclose!
 
-    "TODO
-    "autocmd BufRead *.cpp,*.hpp let b:deoplete#sources = ['clang_complete']
-    "let g:deoplete#sources#clang#libclang_path="/usr/lib64/llvm/libclang.so"
-    "let g:deoplete#sources#clang#clang_header="/usr/lib/clang"
-    "let g:deoplete#sources#clang#sort_algo="priority"
-    "command! Comp let g:deoplete#sources.cpp = ['buffer']
-
-    call deoplete#custom#var('omni', 'input_patterns', { 'javascript': '[^. *\t]\.\w*' })
+    ""call deoplete#custom#var('omni', 'input_patterns', { 'javascript': '[^. *\t]\.\w*' })
 endif
 
 " <TAB>: completion.
@@ -322,9 +294,6 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 "let g:neocomplete#enable_auto_select=1
 
       "
-let g:clang_complete_auto = 1
-let g:clang_auto_select = 0
-
 
 "---------------------------------------------------------------------------
 " a.vim (alternate)
@@ -405,36 +374,24 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler | autocmd BufLeave <buf
 
 
 "---------------------------------------------------------------------------
-" ctrlp
-"---------------------------------------------------------------------------
-"let g:ctrlp_show_hidden = 1
-let g:ctrlp_extensions = ['tag', 'quickfix']
-"if executable('ag')
-    "let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-    "let g:ctrlp_use_caching = 0
-"endif
-
-
-"---------------------------------------------------------------------------
 " Ack / Ag
 "---------------------------------------------------------------------------
 if executable('ag')
   let g:ackprg = 'ag --vimgrep --smart-case'
 endif
-let g:ack_use_dispatch = 1
+"let g:ack_use_dispatch = 1
 
 "---------------------------------------------------------------------------
 " Dirvish
 "---------------------------------------------------------------------------
-
-noremap - :Dirvish %<CR>
 
 command! Shell Dirvish ~/bin/
 command! Utils Dirvish ~/bin_dev/
 
 augroup dirvish_config
     autocmd!
-    autocmd FileType dirvish map <buffer> q <Plug>(dirvish_quit)
+    "autocmd FileType dirvish map <buffer> q <Plug>(dirvish_quit)
+    autocmd FileType dirvish map <buffer> q gq
 augroup END
 
 "---------------------------------------------------------------------------
