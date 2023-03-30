@@ -430,59 +430,22 @@ highlight User3 ctermfg=010 ctermbg=236 guifg=orange guibg=#3a3a3a
 " Functions
 "---------------------------------------------------------------------------
 
-function! ListBuffers()
-    echo "Checking buffers for debug includes..."
-    let bufferlist = getbufinfo()
-    for buf in bufferlist
-        echo buf
-    endfor
-endfunction
-command! BLA call ListBuffers()
-
 
 function! MakeStatusLine()
-    let stl = ''
+    let cur_mode = nvim_get_mode()
+    let modified_color = &modified ? "3" : "2"
 
-    " Mode (bg color), orange if file is modified
-    if has("nvim")
-        let cur_mode = nvim_get_mode()
-        let stl .= ' '
-        let stl .= cur_mode['mode']
-        let stl .= ' '
-    else
-        let stl .= ' Mode'
-    endif
-
-    " Col
-    let stl .= '%1*%4c'
-
-    " Om
-    let stl .= ' ॐ  '
-
-    " Maxrow
-    let stl .= '%4 %L '
-
-    " Path to current file (same color as mode)
-    let stl .= &modified ? '%3*' : '%2*'
-    let stl .= ' %-F'
-    " [+] if modified
-    let stl .= '%m'
-
-    " float right:
-    let stl .= '%='
-    let stl .= '%('
-    let stl .= '%1*'
-    " current branch
-    if exists('b:git_dir')
-        let stl .= ' ' . FugitiveHead(8) . ' '
-    endif
-
-    " current function
-    " filetype (same bg color as mode)
-    let stl .= '%*'
-    let stl .= ' %y '
-
-    let stl .= '%)'
-    return stl
+    return " " . cur_mode['mode'] . " "
+                \ . "%1*%4c"
+                \ . " ॐ  "
+                \ . "%4 %L "
+                \ . "%" . modified_color . "*"
+                \ . " %-F"
+                \ . "%m"
+                \ . "%="
+                \ . "%(%1"
+                \ . " " . FugitiveHead(8) . " "
+                \ . "%* %y "
+                \ . "%)"
 endfunction
 
