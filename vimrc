@@ -7,16 +7,14 @@ set shell=/bin/bash
 set termguicolors
 
 
-" omni completion
-"filetype plugin on
-"set omnifunc=syntaxcomplete#Complete
-
 
 "-------------- Basics  -----------------------
-"launch osl build script
+
+"launch build script
 set makeprg=~/bin_dev/optibuild.sh
 
 set hidden
+"
 " Bracket pairs
 set showmatch
 set matchtime=10
@@ -40,8 +38,6 @@ set nostartofline
 set mouse=a
 
 " Searching
-" Search with Space
-nmap <Space> /
 set ignorecase
 set smartcase
 
@@ -53,7 +49,6 @@ set number
 set wildmode=longest,full
 
 " apppearance
-syntax enable
 set background=dark
 color base16-eighties
 
@@ -94,10 +89,13 @@ autocmd BufRead Jamroot,Jamfile,*.jam set syntax=bbv2
 let mapleader = ","
 let maplocalleader = ","
 
-"Quicker save
+" Search with Space
+nmap <Space> /
+
+" Quicker save
 noremap <Leader>w :update<CR>
 
-"alternate buffer
+" Alternate buffer
 nnoremap <BS> :buffer #<CR>
 
 " scroll down with enter
@@ -111,6 +109,16 @@ noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
+
+imap öö (
+imap ää {
+imap üü [
+
+vmap öö S)
+vmap ää S}
+vmap üü S]
+
+inoremap ,, <Esc>A;<Esc>
 
 " leave insert mode easier
 inoremap jk <ESC>
@@ -136,7 +144,7 @@ nmap <leader>cd :cd %:p:h<CR>
 tnoremap <Esc> <C-\><C-n>
 
 " quick g/s on buffer
-"nnoremap S :%<Space>
+nnoremap S :%<Space>
 
 " quick command mode
 nnoremap ä :
@@ -174,28 +182,15 @@ nnoremap <Leader>mn :cnext<CR>
 nnoremap <Leader>mp :cprevious<CR>
 
 
+" remove trailing whitespace
+nnoremap <leader>dws :%s/\s\+$<CR>
+
+
 function! CppSettings()
     setlocal cindent
     setlocal cinoptions=(0,w1
 endfunction
 autocmd FileType cpp call CppSettings()
-
-function! CKeysInit()
-    " C++ append semicolon
-    imap öö (
-    imap ää {
-    imap üü [
-    inoremap ,, <Esc>A;<Esc>
-
-    vmap öö S)
-    vmap ää S}
-    vmap üü S]
-
-endfunction
-autocmd BufRead *.cpp,*.hpp,*.h,*.ipp,*.py,*.sh,*.html,*.js,*.ts,*.json,*.scss call CKeysInit()
-
-" remove trailing whitespace
-nnoremap <leader>dws :%s/\s\+$<CR>
 
 " ------- Plugins ---------------
 
@@ -271,7 +266,7 @@ nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gb :Git blame<CR>
 
 "---------------------------------------------------------------------------
-" Neocomplete / Deoplete
+" Deoplete
 "---------------------------------------------------------------------------
 
 if has('nvim')
@@ -290,9 +285,6 @@ endif
 
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"let g:neocomplete#enable_auto_select=1
-
-      "
 
 "---------------------------------------------------------------------------
 " a.vim (alternate)
@@ -389,7 +381,6 @@ command! Utils Dirvish ~/bin_dev/
 
 augroup dirvish_config
     autocmd!
-    "autocmd FileType dirvish map <buffer> q <Plug>(dirvish_quit)
     autocmd FileType dirvish map <buffer> q gq
 augroup END
 
@@ -425,27 +416,3 @@ highlight statusline    guifg=black    guibg=#a7a7a7    ctermfg=black   ctermbg=
 highlight User1 ctermfg=007 ctermbg=239 guifg=#adadad guibg=#4e4e4e 
 highlight User2 ctermfg=007 ctermbg=236 guifg=#adadad guibg=#3a3a3a 
 highlight User3 ctermfg=010 ctermbg=236 guifg=orange guibg=#3a3a3a
-
-"---------------------------------------------------------------------------
-" Functions
-"---------------------------------------------------------------------------
-
-
-function! MakeStatusLine()
-    let cur_mode = nvim_get_mode()
-    let modified_color = &modified ? "3" : "2"
-
-    return " " . cur_mode['mode'] . " "
-                \ . "%1*%4c"
-                \ . " ॐ  "
-                \ . "%4 %L "
-                \ . "%" . modified_color . "*"
-                \ . " %-F"
-                \ . "%m"
-                \ . "%="
-                \ . "%(%1"
-                \ . " " . FugitiveHead(8) . " "
-                \ . "%* %y "
-                \ . "%)"
-endfunction
-
