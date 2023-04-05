@@ -1,4 +1,5 @@
 
+" Fallback statusline
 function! MakeStatusLine()
     let cur_mode = nvim_get_mode()
     let modified_color = &modified ? "3" : "2"

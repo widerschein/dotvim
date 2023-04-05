@@ -21,8 +21,6 @@ set matchtime=10
 set scrolloff=4
 
 
-set statusline=%!MakeStatusLine()
-
 "current wd to current file
 "set autochdir
 
@@ -401,18 +399,37 @@ let g:dispatch_tmux_height = 6
 let g:dispatch_quickfix_height = 16
 
 "---------------------------------------------------------------------------
-"incsearch
+" incsearch
 "---------------------------------------------------------------------------
 
 " handled by vim now
 " see is.vim
 
 "---------------------------------------------------------------------------
-" Custom Highlight
+" Lualine
 "---------------------------------------------------------------------------
 
-highlight statusline    guifg=black    guibg=#a7a7a7    ctermfg=black   ctermbg=cyan
-
-highlight User1 ctermfg=007 ctermbg=239 guifg=#adadad guibg=#4e4e4e 
-highlight User2 ctermfg=007 ctermbg=236 guifg=#adadad guibg=#3a3a3a 
-highlight User3 ctermfg=010 ctermbg=236 guifg=orange guibg=#3a3a3a
+lua << EOF
+require("lualine").setup {
+    options = {
+        component_separators = "",
+        section_separators = ""
+    },
+    sections = {
+        lualine_a = { {
+            'mode', fmt = function(m) return m:sub(1,1) end } },
+        lualine_b = {"'ॐ'", 'location'},
+        lualine_c = {'filename'},
+        lualine_x = {},
+        lualine_y = {'FugitiveHead'},
+        lualine_z = {'filetype'}
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {'filename'},
+        lualine_x = {'location'},
+        lualine_y = {},
+        lualine_z = {}
+    } }
+EOF
