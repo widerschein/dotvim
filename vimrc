@@ -405,37 +405,7 @@ let g:dispatch_tmux_height = 6
 let g:dispatch_quickfix_height = 16
 
 "---------------------------------------------------------------------------
-" incsearch
-"---------------------------------------------------------------------------
-
-" handled by vim now
-" see is.vim
-
-"---------------------------------------------------------------------------
 " Lualine
 "---------------------------------------------------------------------------
 
-lua << EOF
-require("lualine").setup {
-    options = {
-        component_separators = "",
-        section_separators = ""
-    },
-    sections = {
-        lualine_a = { {
-            'mode', fmt = function(m) return m:sub(1,1) end } },
-        lualine_b = {"'ॐ'", 'location'},
-        lualine_c = {'filename'},
-        lualine_x = {},
-        lualine_y = {'FugitiveHead'},
-        lualine_z = {'filetype'}
-    },
-    inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {'filename'},
-        lualine_x = {'location'},
-        lualine_y = {},
-        lualine_z = {}
-    } }
-EOF
+lua require("lualine_conf")
