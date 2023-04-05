@@ -78,6 +78,15 @@ command! ProjectsFind Ack <cword> $PROJECTS_ROOT
 command! EditVimRC e ~/.vim/vimrc
 
 
+" ------------ Auto nohlsearch -----------------------
+
+augroup vimrc-incsearch-highlight
+  autocmd!
+  autocmd CmdlineEnter /,\? :set hlsearch
+  autocmd CmdlineLeave /,\? :set nohlsearch
+augroup END
+
+
 " ------------ Jamfile Highlighting -----------------------
 
 autocmd BufRead Jamroot,Jamfile,*.jam set syntax=bbv2
@@ -152,9 +161,6 @@ nnoremap <Leader>r :FZF $PROJECTS_ROOT<CR>
 
 " Alternate source <-> header
 nnoremap <Leader>q :A<CR>
-
-" Toggle Gundo Undo Tree
-nnoremap <F4> :GundoToggle<CR>
 
 nnoremap <F3> :GitGutterToggle<CR>
 
