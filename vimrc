@@ -313,30 +313,15 @@ let g:session_autoload = 'yes'
 "let g:jedi#use_tabs_not_buffers=0
 
 "---------------------------------------------------------------------------
-" Denite
+" Telescope
 "---------------------------------------------------------------------------
 
 nnoremap <Leader>t :Denite outline -start-filter<CR>
 
-nnoremap <leader><CR> :DeniteCursorWord -auto-resize tag<cr>
+"nnoremap <Leader>t :Telescope current_buffer_tags<cr>
 
-nnoremap <leader>y :Denite -cursor-pos=+3 -split=floating register<cr>
+nnoremap <leader>y :Telescope registers<cr>
 
-autocmd FileType denite call s:denite_settings()
-function! s:denite_settings() abort
-  nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> d
-  \ denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p
-  \ denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> q
-  \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> i
-  \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <Space>
-  \ denite#do_map('toggle_select').'j'
-endfunction
 
 "---------------------------------------------------------------------------
 " Sneak colors
@@ -408,4 +393,4 @@ let g:dispatch_quickfix_height = 16
 " Lualine
 "---------------------------------------------------------------------------
 
-lua require("lualine_conf")
+lua require("config.lualine")
