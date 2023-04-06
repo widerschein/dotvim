@@ -140,7 +140,7 @@ map ü <C-]>
 nnoremap <leader>a :Ack<Space>
 
 " split line at coursor in normal mode
-nnoremap K i<CR><Esc>
+"nnoremap K i<CR><Esc>
 
 " switch current dir to buffer's dir
 nmap <leader>cd :cd %:p:h<CR>
@@ -157,7 +157,6 @@ nnoremap S :%<Space>
 nnoremap ä :
 
 nnoremap <Leader>f :FZF $PROTOS_ROOT<CR>
-nnoremap <Leader>r :FZF $PROJECTS_ROOT<CR>
 
 " Alternate source <-> header
 nnoremap <Leader>q :A<CR>
@@ -201,8 +200,8 @@ autocmd FileType cpp call CppSettings()
 " ALE
 "---------------------------------------------------------------------------
 let g:ale_linters = {
-            \ "cpp": [""],
-            \ "javascript": ["eslint"],
+            \ "cpp": ["clangd"],
+            \ "javascript": ["eslint", "tsserver"],
             \ "python": ["mypy"]
             \}
 
@@ -216,6 +215,8 @@ let g:ale_hover_to_floating_preview = 1
 let g:ale_floating_preview = 1
 
 let g:ale_c_clangformat_style_options=expand($PROTOS_ROOT) .. "/_clang_format"
+
+nnoremap <Leader>r :ALEHover<CR>
 
 "---------------------------------------------------------------------------
 " Simple Bookmarks
