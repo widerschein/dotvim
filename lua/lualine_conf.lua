@@ -2,7 +2,7 @@
 
 local function get_linecount()
     local buf_info =  vim.fn.getbufinfo(vim.fn.bufname())
-    return buf_info[1].linecount
+    return buf_info[1] and buf_info[1].linecount
 end
 
 -- Extensions
@@ -10,7 +10,7 @@ end
 local dirvish_extension = {
     filetypes = {"dirvish"},
     sections = {
-        lualine_a = {
+        lualine_c = {
             {
                 "filename",
                 newfile_status = true,
@@ -21,19 +21,15 @@ local dirvish_extension = {
     }
 }
 
-local tagbar_extension = {
-    filetypes = {"tagbar"},
-    sections = {
-        lualine_z = {"filetype"}
-    }
-}
-
 -- Configuration
 
 local config = {
     options = {
         component_separators = "",
-        section_separators = ""
+        section_separators = "",
+        disabled_filetypes = {
+            statusline = {"tagbar"}
+        }
     },
     extensions = {
         "quickfix",
