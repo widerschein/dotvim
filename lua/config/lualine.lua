@@ -1,10 +1,5 @@
 --Helpers
 
-local function get_linecount()
-    local buf_info =  vim.fn.getbufinfo(vim.fn.bufname())
-    return buf_info[1] and buf_info[1].linecount
-end
-
 -- Extensions
 
 local dirvish_extension = {
@@ -48,7 +43,7 @@ local config = {
         lualine_b = {
             "'ॐ'",
             "location",
-            get_linecount
+            "%L"
         },
         lualine_c = {
             {
