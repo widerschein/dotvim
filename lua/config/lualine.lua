@@ -30,8 +30,7 @@ local config = {
         "quickfix",
         "fugitive",
         "fzf",
-        dirvish_extension,
-        tagbar_extension
+        dirvish_extension
     },
     sections = {
         lualine_a = {
