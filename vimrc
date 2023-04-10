@@ -48,7 +48,7 @@ set wildmode=longest,full
 
 " apppearance
 set background=dark
-color base16-eighties
+color everforest
 
 " no mode indicator
 "set noshowmode
