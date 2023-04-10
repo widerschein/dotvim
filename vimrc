@@ -77,6 +77,8 @@ command! ProjectsFind Ack <cword> $PROJECTS_ROOT
 
 command! EditVimRC e ~/.vim/vimrc
 
+command! RemoveTrailingWhitespace %s/\s\+$
+
 
 " ------------ Auto nohlsearch -----------------------
 
@@ -168,10 +170,10 @@ nnoremap <F3> :GitGutterToggle<CR>
 
 function! MyMakeOpen()
     Copen
-    nnoremap <buffer> o <CR> 
-    nnoremap <buffer> q :bd<CR> 
-    "nnoremap <buffer> n :cnext<CR> 
-    "nnoremap <buffer> p :cprevious<CR> 
+    nnoremap <buffer> o <CR>
+    nnoremap <buffer> q :bd<CR>
+    "nnoremap <buffer> n :cnext<CR>
+    "nnoremap <buffer> p :cprevious<CR>
     nnoremap <buffer> n /error<CR>
     "buftype quickfix
 endfunction
@@ -185,38 +187,14 @@ nnoremap <Leader>mn :cnext<CR>
 nnoremap <Leader>mp :cprevious<CR>
 
 
-" remove trailing whitespace
-nnoremap <leader>dws :%s/\s\+$<CR>
-
-
 function! CppSettings()
     setlocal cindent
     setlocal cinoptions=(0,w1
 endfunction
 autocmd FileType cpp call CppSettings()
 
+
 " ------- Plugins ---------------
-
-" ALE
-"---------------------------------------------------------------------------
-let g:ale_linters = {
-            \ "cpp": ["clangd"],
-            \ "javascript": ["eslint", "tsserver"],
-            \ "python": ["mypy"]
-            \}
-
-let g:ale_fixers = {
-            \ "python": ["black"],
-            \ "cpp": ["clang-format"]
-            \}
-
-let g:ale_completion_enabled = 0
-let g:ale_hover_to_floating_preview = 1
-let g:ale_floating_preview = 1
-
-let g:ale_c_clangformat_style_options=expand($PROTOS_ROOT) .. "/_clang_format"
-
-nnoremap <Leader>r :ALEHover<CR>
 
 "---------------------------------------------------------------------------
 " Simple Bookmarks
@@ -270,26 +248,18 @@ nnoremap <Leader>gr :Gread<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gb :Git blame<CR>
 
+
 "---------------------------------------------------------------------------
-" Deoplete
+" LSP
 "---------------------------------------------------------------------------
 
-if has('nvim')
-    let g:deoplete#enable_at_startup=1
-    let g:deoplete#tag#cache_limit_size = 10000000
+lua require("config.lsp")
 
-    call deoplete#custom#option({
-    \ 'max_list': 200,
-    \ 'smart_case': v:true,
-    \ })
+"---------------------------------------------------------------------------
+" nvim-cmp
+"---------------------------------------------------------------------------
 
-    autocmd CompleteDone * silent! pclose!
-
-    ""call deoplete#custom#var('omni', 'input_patterns', { 'javascript': '[^. *\t]\.\w*' })
-endif
-
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+lua require("config.cmp")
 
 "---------------------------------------------------------------------------
 " a.vim (alternate)
@@ -305,23 +275,14 @@ let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
 "---------------------------------------------------------------------------
 let g:session_autosave = 'yes'
 let g:session_autoload = 'yes'
-"
-"---------------------------------------------------------------------------
-" Jedi Vim
-"---------------------------------------------------------------------------
-"let g:jedi#completions_command = ""
-"let g:jedi#use_splits_not_buffers ="top"
-"let g:jedi#use_tabs_not_buffers=0
 
 "---------------------------------------------------------------------------
 " Telescope
 "---------------------------------------------------------------------------
 
-nnoremap <Leader>t :Denite outline -start-filter<CR>
 
-"nnoremap <Leader>t :Telescope current_buffer_tags<cr>
-
-nnoremap <leader>y :Telescope registers<cr>
+nnoremap <leader>y :lua require("telescope.builtin").registers({initial_mode="normal"})<cr>
+nnoremap <leader>t :lua require("telescope.builtin").lsp_document_symbols({initial_mode="normal"})<cr>
 
 
 "---------------------------------------------------------------------------
