@@ -4,16 +4,14 @@ local cmp = require("cmp")
 
 -- Get loaded buffers of max line count
 local get_buffers_max_lines = function(max_lines)
-    local bufs = {}
-    for _, v in pairs(vim.api.nvim_list_bufs()) do
-        local line_count = vim.api.nvim_buf_line_count(v)
-        if line_count > 0 and line_count < max_lines then
-            table.insert(bufs, v)
-        end
-    end
-    return bufs
+    return vim.tbl_filter(
+        function(buf)
+            local line_count = vim.api.nvim_buf_line_count(buf)
+            return line_count > 0 and line_count < max_lines
+        end,
+        vim.api.nvim_list_bufs()
+    )
 end
-
 
 -- Configuration
 
@@ -36,7 +34,7 @@ cmp.setup({
             {
                 name = "buffer",
                 option = {
-                    get_bufnrs = function ()
+                    get_bufnrs = function()
                         return get_buffers_max_lines(8000)
                     end
                 }
