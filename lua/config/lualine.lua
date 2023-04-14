@@ -16,6 +16,13 @@ local dirvish_extension = {
     }
 }
 
+local bufexplorer_extension = {
+    filetypes = {"bufexplorer"},
+    sections = {
+        lualine_z = {"filetype"}
+    }
+}
+
 -- Configuration
 
 local config = {
@@ -30,7 +37,8 @@ local config = {
         "quickfix",
         "fugitive",
         "fzf",
-        dirvish_extension
+        dirvish_extension,
+        bufexplorer_extension
     },
     sections = {
         lualine_a = {
