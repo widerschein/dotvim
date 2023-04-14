@@ -282,7 +282,7 @@ let g:session_autoload = 'yes'
 
 
 nnoremap <leader>y :lua require("telescope.builtin").registers({initial_mode="normal"})<cr>
-nnoremap <leader>t :lua require("telescope.builtin").lsp_document_symbols({initial_mode="normal"})<cr>
+nnoremap <leader>t :lua require("telescope.builtin").lsp_document_symbols({initial_mode="insert"})<cr>
 
 
 "---------------------------------------------------------------------------
