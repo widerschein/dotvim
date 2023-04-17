@@ -16,17 +16,28 @@ lspconfig.lua_ls.setup({
 
 
 -- C++
+
 lspconfig.clangd.setup({
     capabilities = capabilities,
     cmd = { "clangd", "--header-insertion-decorators=false" } -- fix item indent
 })
 
 -- TypeScript/JavaScript
+
 lspconfig.tsserver.setup({
     capabilities = capabilities
 })
 
+lspconfig.eslint.setup({})
+
+-- CSS
+
+lspconfig.cssls.setup({
+    capabilities = capabilities
+})
+
 -- Python
+
 lspconfig.pylsp.setup({
     capabilities = capabilities
 })
