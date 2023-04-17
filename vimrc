@@ -301,11 +301,6 @@ omap f <Plug>Sneak_s
 omap F <Plug>Sneak_S
 let g:sneak#s_next = 1
 
-"---------------------------------------------------------------------------
-" easy motion
-"---------------------------------------------------------------------------
-map s <Plug>(easymotion-s)
-let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj'
 
 "---------------------------------------------------------------------------
 " fzf
