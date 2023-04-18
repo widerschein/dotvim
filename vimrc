@@ -273,8 +273,31 @@ let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
 "---------------------------------------------------------------------------
 " Sessions
 "---------------------------------------------------------------------------
-let g:session_autosave = 'yes'
-let g:session_autoload = 'yes'
+
+set sessionoptions=buffers,curdir,help,resize,tabpages,terminal,winpos,winsize
+
+let s:session_file = expand("~/.vim/sessions/default.vim")
+
+function! SessionRestore()
+    if !argc() && empty(v:this_session) && filereadable(s:session_file)
+        execute "source" s:session_file
+    endif
+endfunction
+
+function! SessionSave()
+    if !argc()
+        execute "mksession!" s:session_file
+    endif
+endfunction
+
+
+augroup sessions
+    autocmd!
+    autocmd VimEnter * nested call SessionRestore()
+    autocmd VimLeave,BufAdd * call SessionSave()
+augroup END
+
+
 
 "---------------------------------------------------------------------------
 " Telescope
