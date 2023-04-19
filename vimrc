@@ -269,6 +269,8 @@ let g:alternateNoDefaultAlternate = 1
 let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
             \ . ',sfr:../src,sfr:../public_include'
             \ . ',sfr:../../src,sfr:../../public_include'
+            \ . ',reg:/src/public_include/g'
+            \ . ',reg:/public_include/src/g'
 
 "---------------------------------------------------------------------------
 " Sessions
