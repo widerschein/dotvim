@@ -129,11 +129,10 @@ vmap üü S]
 
 inoremap ,, <Esc>A;<Esc>
 
-" leave insert mode easier
+" leave various insert modes
 inoremap jk <ESC>
-
-" leave command mode easier
 cnoremap jk <C-c>
+tnoremap jk <C-\><C-n>
 
 " far better mapping for german layout
 map ü <C-]>
@@ -148,9 +147,6 @@ nnoremap <leader>a :Ack<Space>
 nmap <leader>cd :cd %:p:h<CR>
 
 "noremap <Leader>h :nohl<CR>
-
-" Leave terminal-mode with Esc
-tnoremap <Esc> <C-\><C-n>
 
 " quick g/s on buffer
 nnoremap S :%<Space>
@@ -311,13 +307,8 @@ nnoremap <leader>t :lua require("telescope.builtin").lsp_document_symbols({initi
 
 
 "---------------------------------------------------------------------------
-" Sneak colors
+" Sneak
 "---------------------------------------------------------------------------
-augroup SneakPluginColors
-    autocmd!
-    autocmd ColorScheme * hi SneakPluginTarget guifg=black guibg=red ctermfg=red ctermbg=black
-    autocmd ColorScheme * hi SneakPluginScope  guifg=black guibg=yellow ctermfg=black ctermbg=yellow
-augroup END
 nmap f <Plug>Sneak_s
 nmap F <Plug>Sneak_S
 xmap f <Plug>Sneak_s
