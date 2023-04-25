@@ -4,10 +4,11 @@ import os
 import sys
 import argparse
 import subprocess
+import shutil
 from pathlib import Path
 
 parser = argparse.ArgumentParser(description="Manage Vim plugins")
-parser.add_argument("what", help="Manage bundle", choices=["init", "update"])
+parser.add_argument("what", help="Manage bundle", choices=["init", "update", "prune"])
 
 plugins = {
         "ack": "https://github.com/mileszs/ack.vim.git",
@@ -75,4 +76,8 @@ if __name__ == "__main__":
                 check=True,
                 cwd=bundle_dir)
 
-
+    elif args.what == "prune":
+        for plug_dir in bundle_dir.iterdir():
+            if not plug_dir.stem in plugins or plug_dir.is_file():
+                print(f"Removing {plug_dir}")
+                shutil.rmtree(plug_dir)
