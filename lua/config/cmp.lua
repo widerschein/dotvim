@@ -22,7 +22,7 @@ cmp.setup({
         end
     },
     mapping = cmp.mapping.preset.insert({
-        ["C-<Tab>"] = cmp.mapping.select_prev_item(),
+        ["<S-Tab>"] = cmp.mapping.select_prev_item(),
         ["<Tab>"] = cmp.mapping.select_next_item(),
         ["<C-e>"] = cmp.mapping.abort(),
     }),
