@@ -1,15 +1,20 @@
 local plugin_script_source = "~/.vim/plugins.py"
 
-vim.api.nvim_create_user_command(
-    "PluginsInit",
-    function()
-        vim.cmd("te " .. plugin_script_source .. " init")
-    end, {}
-)
+local args = {"init", "update", "prune"}
 
 vim.api.nvim_create_user_command(
-    "PluginsUpdate",
-    function()
-        vim.cmd("te " .. plugin_script_source .. " update")
-    end, {}
+    "Plugins",
+    function(opt)
+        if opt.args == "" then
+            vim.cmd("Dirvish ~/.vim/pack/plugins/start")
+        elseif vim.tbl_contains(args, opt.args) then
+            vim.cmd("te " .. plugin_script_source .. " " .. opt.args)
+        end
+    end,
+    {
+        nargs = "?",
+        complete = function(_, _, _)
+            return args
+        end
+    }
 )
