@@ -25,7 +25,7 @@ plugins = {
         "dispatch": "https://github.com/tpope/vim-dispatch.git",
         "everforest": "https://github.com/sainnhe/everforest.git",
         "fugitive": "https://github.com/tpope/vim-fugitive.git",
-        "gitgutter": "https://github.com/airblade/vim-gitgutter.git",
+        "gitsigns": "https://github.com/lewis6991/gitsigns.nvim.git",
         "javascript": "https://github.com/pangloss/vim-javascript.git",
         "lsp-config": "https://github.com/neovim/nvim-lspconfig.git",
         "lualine": "https://github.com/nvim-lualine/lualine.nvim.git",

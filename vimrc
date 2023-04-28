@@ -159,7 +159,7 @@ nnoremap <Leader>f :FZF $PROTOS_ROOT<CR>
 " Alternate source <-> header
 nnoremap <Leader>q :A<CR>
 
-nnoremap <F3> :GitGutterToggle<CR>
+nnoremap <F3> :Gitsigns toggle_signs<CR>
 
 " dispatch / make / quickfix
 "nnoremap <Leader>m :Make!<CR>
@@ -200,10 +200,6 @@ let g:bookmark_show_warning = 1
 let g:bookmark_save_per_working_dir = 0
 let g:bookmark_manage_per_buffer = 0
 
-"---------------------------------------------------------------------------
-" Git Gutter
-"---------------------------------------------------------------------------
-set updatetime=100
 
 "---------------------------------------------------------------------------
 " Buffer Explorer
@@ -367,6 +363,12 @@ let g:dispatch_quickfix_height = 16
 "---------------------------------------------------------------------------
 
 lua require("config.lualine")
+
+"---------------------------------------------------------------------------
+" gitsigns
+"---------------------------------------------------------------------------
+
+lua require("gitsigns").setup()
 
 "---------------------------------------------------------------------------
 " Diagnostics
