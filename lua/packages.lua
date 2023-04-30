@@ -1,6 +1,6 @@
 local plugin_script_source = "~/.vim/plugins.py"
 
-local args = {"init", "update", "prune"}
+local args = {"fetch", "prune"}
 
 vim.api.nvim_create_user_command(
     "Plugins",

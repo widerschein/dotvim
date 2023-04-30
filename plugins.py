@@ -8,7 +8,7 @@ import shutil
 from pathlib import Path
 
 parser = argparse.ArgumentParser(description="Manage Vim plugins")
-parser.add_argument("what", help="Manage bundle", choices=["init", "update", "prune"])
+parser.add_argument("what", help="Manage bundle", choices=["fetch", "prune"])
 
 plugins = {
         "ack": "https://github.com/mileszs/ack.vim.git",
@@ -53,28 +53,25 @@ if __name__ == "__main__":
     else:
         bundle_dir = Path.home() / ".vim" / "pack" / "plugins" / "start"
 
-    if args.what == "update":
-        for plug_dir in bundle_dir.iterdir():
-            print("* Updating {}".format(plug_dir.name))
-            print(subprocess.check_output(
-                ["git", "pull", "--recurse-submodules"],
-                text=True,
-                stderr=subprocess.STDOUT,
-                cwd=plug_dir))
-
-    elif args.what == "init":
+    if args.what == "fetch":
         bundle_dir.mkdir(parents=True, exist_ok=True)
-        if len(list(bundle_dir.iterdir())):
-            print("Bundle directory is not empty")
-            sys.exit(1)
 
         for plug, url in plugins.items():
-            print("* Installing {}".format(plug))
-            subprocess.run(
-                ["git", "clone", "--verbose", "--recursive", url, plug],
-                text=True,
-                check=True,
-                cwd=bundle_dir)
+            plugin_path = bundle_dir / plug
+            if plugin_path.exists():
+                print("* Updating {}".format(plug))
+                print(subprocess.check_output(
+                    ["git", "pull", "--recurse-submodules"],
+                    text=True,
+                    stderr=subprocess.STDOUT,
+                    cwd=plugin_path))
+            else:
+                print("* Installing {}".format(plug))
+                subprocess.run(
+                    ["git", "clone", "--verbose", "--recursive", url, plug],
+                    text=True,
+                    check=True,
+                    cwd=bundle_dir)
 
     elif args.what == "prune":
         for plug_dir in bundle_dir.iterdir():
