@@ -268,19 +268,24 @@ let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
 " Sessions
 "---------------------------------------------------------------------------
 
-set sessionoptions=buffers,curdir,help,resize,tabpages,terminal,winpos,winsize
+set sessionoptions=buffers,curdir,resize,terminal,winpos,winsize
 
-let s:session_file = expand("~/.vim/sessions/default.vim")
+let g:default_session_file = ""
 
 function! SessionRestore()
-    if !argc() && empty(v:this_session) && filereadable(s:session_file)
-        execute "source" s:session_file
+    " 
+    let l:started_with_stdin = len(getbufinfo({'bufmodified':1})) > 0
+    if !argc() && !l:started_with_stdin && empty(v:this_session)
+        let g:default_session_file = expand("~/.vim/sessions/default.vim")
+        if filereadable(g:default_session_file)
+            execute "source" g:default_session_file
+        endif
     endif
 endfunction
 
 function! SessionSave()
-    if !argc()
-        execute "mksession!" s:session_file
+    if len(g:default_session_file)
+        execute "mksession!" g:default_session_file
     endif
 endfunction
 
