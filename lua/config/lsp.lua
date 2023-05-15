@@ -1,6 +1,9 @@
 local lspconfig = require("lspconfig")
+local null_ls = require("null-ls")
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+local null_sources = {}
 
 -- Lua
 lspconfig.lua_ls.setup({
@@ -28,7 +31,7 @@ lspconfig.tsserver.setup({
     capabilities = capabilities
 })
 
-lspconfig.eslint.setup({})
+table.insert(null_sources, null_ls.builtins.diagnostics.eslint)
 
 -- CSS
 
@@ -40,6 +43,12 @@ lspconfig.cssls.setup({
 
 lspconfig.pylsp.setup({
     capabilities = capabilities
+})
+
+table.insert(null_sources, null_ls.builtins.formatting.black)
+
+null_ls.setup({
+    sources = null_sources
 })
 
 

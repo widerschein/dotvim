@@ -30,6 +30,7 @@ plugins = {
         "lsp-config": "https://github.com/neovim/nvim-lspconfig.git",
         "lualine": "https://github.com/nvim-lualine/lualine.nvim.git",
         "nerdcommenter": "https://github.com/scrooloose/nerdcommenter.git",
+        "null-ls": "https://github.com/jose-elias-alvarez/null-ls.nvim.git",
         "plenary": "https://github.com/nvim-lua/plenary.nvim.git",
         "rainbow": "https://github.com/luochen1990/rainbow",
         "sensible": "https://github.com/tpope/vim-sensible.git",
