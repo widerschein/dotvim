@@ -27,6 +27,7 @@ plugins = {
         "fugitive": "https://github.com/tpope/vim-fugitive.git",
         "gitsigns": "https://github.com/lewis6991/gitsigns.nvim.git",
         "javascript": "https://github.com/pangloss/vim-javascript.git",
+        "kanagawa": "https://github.com/rebelot/kanagawa.nvim.git",
         "lsp-config": "https://github.com/neovim/nvim-lspconfig.git",
         "lualine": "https://github.com/nvim-lualine/lualine.nvim.git",
         "nerdcommenter": "https://github.com/scrooloose/nerdcommenter.git",
