@@ -89,9 +89,10 @@ augroup vimrc-incsearch-highlight
 augroup END
 
 
-" ------------ Jamfile Highlighting -----------------------
+" ------------ Custom Highlighting -----------------------
 
 autocmd BufRead Jamroot,Jamfile,*.jam set syntax=bbv2
+autocmd BufRead *.qrc set filetype=xml
 
 " ------------ Mappings -----------------------
 
