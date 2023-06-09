@@ -331,7 +331,10 @@ autocmd FileType fzf set laststatus=0 noshowmode noruler | autocmd BufLeave <buf
 "---------------------------------------------------------------------------
 " Ack / Ag
 "---------------------------------------------------------------------------
-if executable('ag')
+
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep --smart-case'
+elseif executable('ag')
   let g:ackprg = 'ag --vimgrep --smart-case'
 endif
 "let g:ack_use_dispatch = 1
