@@ -54,16 +54,16 @@ null_ls.setup({
 
 vim.keymap.set("n", "<leader>d", vim.diagnostic.setloclist)
 
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
+-- Buffer-local mappings after LSP attach
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+
     callback = function(ev)
-        -- Buffer local mappings.
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
         local opts = { buffer = ev.buf }
         vim.keymap.set("n", "<leader>lD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, opts)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "<leader>lw", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
