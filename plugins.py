@@ -5,6 +5,7 @@ import sys
 import argparse
 import subprocess
 import shutil
+import concurrent.futures
 from pathlib import Path
 
 parser = argparse.ArgumentParser(description="Manage Vim plugins")
@@ -46,6 +47,20 @@ plugins = {
         }
 
 
+def gitproc(cmd, cwd):
+    return subprocess.run(
+            cmd,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            cwd=cwd).stdout
+
+def update(name, plugin_dir):
+    print("* {}\n{}".format(name, gitproc(["git", "pull", "--recurse-submodules", "--stat"], plugin_dir)))
+
+def install(name, url, bundle_dir):
+    print("* {}\n\{}".format(name, gitproc(["git", "clone", "--recursive", url, name], bundle_dir)))
+
 if __name__ == "__main__":
 
     args = parser.parse_args()
@@ -58,22 +73,13 @@ if __name__ == "__main__":
     if args.what == "fetch":
         bundle_dir.mkdir(parents=True, exist_ok=True)
 
-        for plug, url in plugins.items():
-            plugin_path = bundle_dir / plug
-            if plugin_path.exists():
-                print("* Updating {}".format(plug))
-                print(subprocess.check_output(
-                    ["git", "pull", "--recurse-submodules"],
-                    text=True,
-                    stderr=subprocess.STDOUT,
-                    cwd=plugin_path))
-            else:
-                print("* Installing {}".format(plug))
-                subprocess.run(
-                    ["git", "clone", "--verbose", "--recursive", url, plug],
-                    text=True,
-                    check=True,
-                    cwd=bundle_dir)
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            for plug, url in plugins.items():
+                plugin_path = bundle_dir / plug
+                if plugin_path.exists():
+                    executor.submit(update, plug, plugin_path)
+                else:
+                    executor.submit(install, plug, url, bundle_dir)
 
     elif args.what == "prune":
         for plug_dir in bundle_dir.iterdir():
