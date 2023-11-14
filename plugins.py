@@ -8,10 +8,7 @@ import shutil
 import concurrent.futures
 from pathlib import Path
 
-parser = argparse.ArgumentParser(description="Manage Vim plugins")
-parser.add_argument("what", help="Manage bundle", choices=["fetch", "prune"])
-
-plugins = {
+PLUGINS = {
         "ack": "https://github.com/mileszs/ack.vim.git",
         "a": "https://github.com/vim-scripts/a.vim.git",
         "auto-pairs": "https://github.com/jiangmiao/auto-pairs.git",
@@ -56,13 +53,14 @@ def gitproc(cmd, cwd):
             cwd=cwd).stdout
 
 def update(name, plugin_dir):
-    print("* {}\n{}".format(name, gitproc(["git", "pull", "--recurse-submodules", "--stat"], plugin_dir)))
+    print("* {} : Update\n{}".format(name, gitproc(["git", "pull", "--recurse-submodules", "--stat"], plugin_dir)))
 
 def install(name, url, bundle_dir):
-    print("* {}\n\{}".format(name, gitproc(["git", "clone", "--recursive", url, name], bundle_dir)))
+    print("* {} : Install \n\{}".format(name, gitproc(["git", "clone", "--recursive", url, name], bundle_dir)))
 
 if __name__ == "__main__":
-
+    parser = argparse.ArgumentParser(description="Manage Neovim plugins")
+    parser.add_argument("what", help="Manage bundle", choices=["fetch", "prune"])
     args = parser.parse_args()
 
     if os.name == "nt":
@@ -72,9 +70,8 @@ if __name__ == "__main__":
 
     if args.what == "fetch":
         bundle_dir.mkdir(parents=True, exist_ok=True)
-
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            for plug, url in plugins.items():
+            for plug, url in PLUGINS.items():
                 plugin_path = bundle_dir / plug
                 if plugin_path.exists():
                     executor.submit(update, plug, plugin_path)
@@ -82,7 +79,15 @@ if __name__ == "__main__":
                     executor.submit(install, plug, url, bundle_dir)
 
     elif args.what == "prune":
-        for plug_dir in bundle_dir.iterdir():
-            if not plug_dir.stem in plugins or plug_dir.is_file():
-                print(f"Removing {plug_dir}")
-                shutil.rmtree(plug_dir)
+        surplus_folders = [
+                folder for folder in bundle_dir.iterdir()
+                if not folder.stem in PLUGINS or folder.is_file()
+                ]
+
+        if len(surplus_folders):
+            do_remove =  input("Remove {}? [y/n]".format(", ".join(sorted(f.stem for f in surplus_folders))))
+            if "y" in do_remove:
+                for folder in surplus_folders:
+                    shutil.rmtree(folder)
+        else:
+            print("Nothing to prune")
