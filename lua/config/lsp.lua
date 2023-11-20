@@ -25,6 +25,11 @@ lspconfig.clangd.setup({
     cmd = { "clangd", "--header-insertion-decorators=false" } -- fix item indent
 })
 
+-- Bash
+lspconfig.bashls.setup({
+    capabilities = capabilities
+})
+
 -- TypeScript/JavaScript
 
 lspconfig.tsserver.setup({
