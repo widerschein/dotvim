@@ -22,7 +22,7 @@ lspconfig.lua_ls.setup({
 
 lspconfig.clangd.setup({
     capabilities = capabilities,
-    cmd = { "clangd", "--header-insertion-decorators=false" } -- fix item indent
+    cmd = { "clangd", "--header-insertion-decorators=false", "--log=error" } -- fix item indent
 })
 
 -- Bash
