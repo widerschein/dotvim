@@ -382,9 +382,19 @@ lua require("gitsigns").setup()
 "---------------------------------------------------------------------------
 " Diagnostics
 "---------------------------------------------------------------------------
-sign define DiagnosticSignError text=🔥 texthl=DiagnosticSignError linehl= numhl=
-sign define DiagnosticSignWarn text=👀 texthl=DiagnosticSignWarn linehl= numhl=
-sign define DiagnosticSignInfo text=💡 texthl=DiagnosticSignInfo linehl= numhl=
+
+lua << EOF
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "🔥",
+            [vim.diagnostic.severity.WARN] = "👀",
+            [vim.diagnostic.severity.INFO] = "💡",
+            [vim.diagnostic.severity.HINT] = "H"
+        }
+    }
+})
+EOF
 
 "---------------------------------------------------------------------------
 " Plugins
