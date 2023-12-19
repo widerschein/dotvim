@@ -38,6 +38,8 @@ lspconfig.tsserver.setup({
 
 table.insert(null_sources, null_ls.builtins.diagnostics.eslint)
 
+table.insert(null_sources, null_ls.builtins.formatting.prettier)
+
 -- CSS
 
 lspconfig.cssls.setup({
