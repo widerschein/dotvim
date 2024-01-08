@@ -58,6 +58,12 @@ null_ls.setup({
     sources = null_sources
 })
 
+-- Go
+
+lspconfig.gopls.setup({
+    capabilities = capabilities
+})
+
 
 vim.keymap.set("n", "<leader>d", vim.diagnostic.setloclist)
 
