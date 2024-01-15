@@ -6,6 +6,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local null_sources = {}
 
 -- Lua
+
 lspconfig.lua_ls.setup({
     capabilities = capabilities,
     settings = {
@@ -16,7 +17,6 @@ lspconfig.lua_ls.setup({
         }
     }
 })
-
 
 -- C++
 
@@ -54,14 +54,15 @@ lspconfig.pylsp.setup({
 
 table.insert(null_sources, null_ls.builtins.formatting.black)
 
-null_ls.setup({
-    sources = null_sources
-})
-
 -- Go
 
 lspconfig.gopls.setup({
     capabilities = capabilities
+})
+
+
+null_ls.setup({
+    sources = null_sources
 })
 
 
