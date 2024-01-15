@@ -6,23 +6,13 @@ set shell=/bin/bash
 
 set termguicolors
 
-
-
-"-------------- Basics  -----------------------
-
-"launch build script
-set makeprg=~/bin_dev/optibuild.sh
-
 set hidden
-"
+
 " Bracket pairs
 set showmatch
 set matchtime=10
 set scrolloff=4
 
-
-"current wd to current file
-"set autochdir
 
 set tabstop=4
 set shiftwidth=4
@@ -46,7 +36,7 @@ set number
 " display pum when tabbing
 set wildmode=longest,full
 
-" apppearance
+" appearance
 set background=dark
 color everforest
 
@@ -58,7 +48,6 @@ set pumheight=15
 
 " don't show completion preview popup
 "set completeopt=menuone
-
 
 " GVim setting
 set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 13
@@ -107,10 +96,6 @@ noremap <Leader>w :update<CR>
 
 " Alternate buffer
 nnoremap <BS> :buffer #<CR>
-
-" scroll down with enter
-"nnoremap <CR> <C-d>
-"autocmd BufReadPost *.c,*.cpp,*.h,*.hpp,*.py nnoremap <CR> <C-d>
 
 " Comfortable window switching
 nnoremap <C-w>c :bp\|bd #<CR>
@@ -227,7 +212,6 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 let g:UltiSnipsSnippetsDir=$HOME .. "/.vim/Ultisnips"
 let g:UltiSnipsSnippetDirectories=["Ultisnips"]
 
-
 "---------------------------------------------------------------------------
 " Fugitive mapping
 "---------------------------------------------------------------------------
@@ -240,7 +224,6 @@ nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gr :Gread<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gb :Git blame<CR>
-
 
 "---------------------------------------------------------------------------
 " LSP
@@ -257,6 +240,7 @@ lua require("config.cmp")
 "---------------------------------------------------------------------------
 " a.vim (alternate)
 "---------------------------------------------------------------------------
+
 let g:alternateNoDefaultAlternate = 1
 " append to script default
 let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
@@ -274,7 +258,6 @@ set sessionoptions=buffers,curdir,resize,terminal,winpos,winsize
 let g:default_session_file = ""
 
 function! SessionRestore()
-    " 
     let l:started_with_stdin = len(getbufinfo({'bufmodified':1})) > 0
     if !argc() && !l:started_with_stdin && empty(v:this_session)
         let g:default_session_file = expand("~/.vim/sessions/default.vim")
@@ -298,15 +281,12 @@ augroup sessions
 augroup END
 
 
-
 "---------------------------------------------------------------------------
 " Telescope
 "---------------------------------------------------------------------------
 
-
 nnoremap <leader>y :lua require("telescope.builtin").registers({initial_mode="normal"})<cr>
 nnoremap <leader>t :lua require("telescope.builtin").lsp_document_symbols({initial_mode="insert"})<cr>
-
 
 "---------------------------------------------------------------------------
 " Sneak
@@ -319,14 +299,12 @@ omap f <Plug>Sneak_s
 omap F <Plug>Sneak_S
 let g:sneak#s_next = 1
 
-
 "---------------------------------------------------------------------------
 " fzf
 "---------------------------------------------------------------------------
 set runtimepath+=~/Programme/fzf
 
 autocmd FileType fzf set laststatus=0 noshowmode noruler | autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
 
 "---------------------------------------------------------------------------
 " Ack / Ag
