@@ -324,11 +324,6 @@ endif
 command! Shell Dirvish ~/bin/
 command! Utils Dirvish ~/bin_dev/
 
-augroup dirvish_config
-    autocmd!
-    autocmd FileType dirvish map <buffer> q gq
-augroup END
-
 "---------------------------------------------------------------------------
 " Fugitive
 "---------------------------------------------------------------------------
