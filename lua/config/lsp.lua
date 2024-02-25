@@ -26,6 +26,7 @@ lspconfig.clangd.setup({
 })
 
 -- Bash
+
 lspconfig.bashls.setup({
     capabilities = capabilities
 })
@@ -36,7 +37,7 @@ lspconfig.tsserver.setup({
     capabilities = capabilities
 })
 
-table.insert(null_sources, null_ls.builtins.diagnostics.eslint)
+lspconfig.eslint.setup({})
 
 table.insert(null_sources, null_ls.builtins.formatting.prettier)
 
