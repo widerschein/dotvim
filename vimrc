@@ -137,7 +137,13 @@ nnoremap S :%<Space>
 " quick command mode
 nnoremap ä :
 
-nnoremap <Leader>f :FZF $PROTOS_ROOT<CR>
+" finder
+if executable('fzf')
+    nnoremap <Leader>f :FZF $PROTOS_ROOT<CR>
+else
+    nnoremap <Leader>f :Telescope find_files cwd=$PROTOS_ROOT<CR>
+endif
+nnoremap <Leader>g :Telescope live_grep cwd=$SANDBOX<CR>
 
 " Alternate source <-> header
 nnoremap <Leader>q :A<CR>
