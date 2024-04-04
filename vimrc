@@ -58,11 +58,8 @@ set guioptions-=L  "remove left-hand scroll bar
 
 
 " ------------ My commands -----------------------
-"command Check normal A ":exe "normal \<c-w>\<c-w>"
 
-command! ProtosFind Ack <cword> $PROTOS_ROOT
-command! ProjectsFind Ack <cword> $PROJECTS_ROOT
-
+command! SandboxFind Ack! <cword> $SANDBOX
 
 command! EditVimRC e ~/.vim/vimrc
 
