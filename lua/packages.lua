@@ -9,6 +9,7 @@ vim.api.nvim_create_user_command(
             vim.cmd("Dirvish ~/.vim/pack/plugins/start")
         elseif vim.tbl_contains(args, opt.args) then
             vim.cmd("te " .. plugin_script_source .. " " .. opt.args)
+            vim.cmd("helptags ALL")
         end
     end,
     {
