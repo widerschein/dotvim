@@ -353,7 +353,7 @@ lua require("config.lualine")
 " gitsigns
 "---------------------------------------------------------------------------
 
-lua require("gitsigns").setup()
+lua require("config.gitsigns")
 
 "---------------------------------------------------------------------------
 " Diagnostics
