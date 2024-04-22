@@ -56,7 +56,7 @@ def update(name, plugin_dir):
     print("* {} : Update\n{}".format(name, gitproc(["git", "pull", "--recurse-submodules", "--stat"], plugin_dir)))
 
 def install(name, url, bundle_dir):
-    print("* {} : Install \n\{}".format(name, gitproc(["git", "clone", "--recursive", url, name], bundle_dir)))
+    print("* {} : Install \n{}".format(name, gitproc(["git", "clone", "--recursive", url, name], bundle_dir)))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Manage Neovim plugins")
