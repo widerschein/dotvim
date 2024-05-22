@@ -35,19 +35,6 @@ class ${1:Bunch}:
         self.__dict__.update(kwds)
 endsnippet
 
-
-# print_outs
-# vector :
-#     line=""
-#     for i in range(0,values_vec.rows()) :
-#         line = line + " value : " + str(values_vec(i)) + " - "
-#     print line
-# 
-# 
-# design_point_type: 
-#     line=""
-#     for n,v in single_design :
-#         if v.IsScalar :
-#             line = line + "name : " + n + " value : " + str(v.GetScalar().real) + " - "
-#     print line
-# 
+snippet rt
+reveal_type($1)
+endsnippet
