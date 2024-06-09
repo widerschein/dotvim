@@ -49,12 +49,14 @@ set pumheight=15
 " don't show completion preview popup
 "set completeopt=menuone
 
-" GVim setting
-set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 13
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
+" Neovide
+if exists("g:neovide")
+    set guifont=Ubuntu\ Mono:h13
+    let g:neovide_cursor_trail_size = 0.4
+    let g:neovide_position_animation_length = 0.01
+    let g:neovide_scroll_animation_length = 0.15
+    let g:neovide_cursor_vfx_mode = "pixiedust"
+endif
 
 
 " ------------ My commands -----------------------
