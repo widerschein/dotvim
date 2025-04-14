@@ -368,6 +368,7 @@ lua require("config.codecompanion")
 "---------------------------------------------------------------------------
 
 lua << EOF
+vim.diagnostic.config({virtual_text = true})
 vim.diagnostic.config({
     signs = {
         text = {
