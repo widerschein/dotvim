@@ -358,10 +358,10 @@ lua require("config.lualine")
 lua require("config.gitsigns")
 
 "---------------------------------------------------------------------------
-" Gen
+" Codecompanion
 "---------------------------------------------------------------------------
 
-lua require("config.gen")
+lua require("config.codecompanion")
 
 "---------------------------------------------------------------------------
 " Diagnostics
