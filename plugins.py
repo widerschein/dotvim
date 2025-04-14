@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import sys
 import argparse
 import subprocess
 import shutil
@@ -19,6 +18,7 @@ PLUGINS = {
         "cmp-lsp": "https://github.com/hrsh7th/cmp-nvim-lsp.git",
         "cmp-path": "https://github.com/hrsh7th/cmp-path.git",
         "cmp-ultisnips": "https://github.com/quangnguyen30192/cmp-nvim-ultisnips.git",
+        "codecompanion": "https://github.com/olimorris/codecompanion.nvim.git",
         "dirvish": "https://github.com/justinmk/vim-dirvish.git",
         "dispatch": "https://github.com/tpope/vim-dispatch.git",
         "everforest": "https://github.com/sainnhe/everforest.git",
