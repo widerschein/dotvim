@@ -1,13 +1,9 @@
-local lspconfig = require("lspconfig")
 local null_ls = require("null-ls")
-
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-local null_sources = {}
 
 -- Lua
 
-lspconfig.lua_ls.setup({
+vim.lsp.config("lua_ls", {
     capabilities = capabilities,
     settings = {
         Lua = {
@@ -17,53 +13,60 @@ lspconfig.lua_ls.setup({
         }
     }
 })
+vim.lsp.enable("lua_ls")
 
 -- C++
 
-lspconfig.clangd.setup({
+vim.lsp.config("clangd", {
     capabilities = capabilities,
     cmd = { "clangd", "--header-insertion-decorators=false", "--log=error" } -- fix item indent
 })
+vim.lsp.enable("clangd")
 
 -- Bash
 
-lspconfig.bashls.setup({
+vim.lsp.config("bashls", {
     capabilities = capabilities
 })
+vim.lsp.enable("bashls")
 
 -- TypeScript/JavaScript
 
-lspconfig.ts_ls.setup({
+vim.lsp.config("ts_ls", {
     capabilities = capabilities
 })
+vim.lsp.enable("ts_ls")
 
-lspconfig.eslint.setup({})
-
-table.insert(null_sources, null_ls.builtins.formatting.prettier)
+vim.lsp.config("eslint", {})
+vim.lsp.enable("eslint")
 
 -- CSS
 
-lspconfig.cssls.setup({
+vim.lsp.config("cssls", {
     capabilities = capabilities
 })
+vim.lsp.enable("cssls")
 
 -- Python
 
-lspconfig.pylsp.setup({
+vim.lsp.config("pylsp", {
     capabilities = capabilities
 })
-
-table.insert(null_sources, null_ls.builtins.formatting.black)
+vim.lsp.enable("pylsp")
 
 -- Go
 
-lspconfig.gopls.setup({
+vim.lsp.config("gopls", {
     capabilities = capabilities
 })
+vim.lsp.enable("gopls")
 
 
 null_ls.setup({
-    sources = null_sources
+    sources = {
+        null_ls.builtins.formatting.black,
+        null_ls.builtins.formatting.prettier,
+    }
 })
 
 
